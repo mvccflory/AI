@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freshman Writing Process</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: 2px solid #333;
+      background-color: white;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    button.active {
+      background-color: #333;
+      color: white;
+    }
+    .card {
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Freshman Composition Writing Process</h1>
+  <div class="buttons" id="stepButtons"></div>
+  <div class="card" id="stepContent"></div>
+
+  <script>
+    const steps = [
+      {
+        title: "1. Prewriting",
+        description:
+          "Students brainstorm, outline, and gather sources. Techniques include mind mapping, freewriting, and group discussions."
+      },
+      {
+        title: "2. Drafting",
+        description:
+          "The first draft is written with a focus on getting ideas down, not perfection. Structure is emphasized: intro, body, conclusion."
+      },
+      {
+        title: "3. Peer Review",
+        description:
+          "Students exchange drafts and give constructive feedback on clarity, structure, grammar, and ideas."
+      },
+      {
+        title: "4. Revising",
+        description:
+          "Based on feedback, students improve content, organization, and flow. Major reworking may occur."
+      },
+      {
+        title: "5. Editing",
+        description:
+          "Students fix grammar, punctuation, and spelling errors. Formatting is polished."
+      },
+      {
+        title: "6. Final Submission",
+        description:
+          "Students submit the final version of the paper. Instructors may use rubrics to assess key learning outcomes."
+      }
+    ];
+
+    const buttonContainer = document.getElementById('stepButtons');
+    const contentContainer = document.getElementById('stepContent');
+
+    function renderStep(index) {
+      contentContainer.textContent = steps[index].description;
+      document.querySelectorAll('button').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+      });
+    }
+
+    steps.forEach((step, index) => {
+      const btn = document.createElement('button');
+      btn.textContent = step.title;
+      btn.onclick = () => renderStep(index);
+      buttonContainer.appendChild(btn);
+    });
+
+    renderStep(0);
+  </script>
+</body>
+</html>
