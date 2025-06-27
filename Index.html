@@ -1,1 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Index Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-section {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #e1e8ff;
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            border-color: #4facfe;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .links-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e1e8ff;
+        }
+
+        .links-section h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .links-section h2::before {
+            content: "🔗";
+            font-size: 1.2em;
+        }
+
+        .link-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .link-item:hover {
+            background: #e1e8ff;
+            transform: translateX(5px);
+        }
+
+        .link-item a {
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .link-item a:hover {
+            color: #2d3748;
+            text-decoration: underline;
+        }
+
+        .link-path {
+            color: #718096;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        .empty-state img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .link-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>HTML Index Manager</h1>
+            <p>Organize and manage your HTML files with custom link names</p>
+        </div>
+        
+        <div class="content">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="linkName">Link Display Name:</label>
+                    <input type="text" id="linkName" placeholder="e.g., My Portfolio, Contact Page, About Us">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fileName">HTML File Path:</label>
+                    <input type="text" id="fileName" placeholder="e.g., portfolio.html, contact.html, about.html">
+                </div>
+                
+                <button class="btn" onclick="addLink()">Add Link</button>
+            </div>
+            
+            <div class="links-section">
+                <h2>Your HTML Links</h2>
+                <div id="linksList">
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📁</div>
+                        <p>No links added yet. Add your first HTML file link above!</p>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn export-btn" onclick="exportIndex()">Export index.html</button>
+                    <button class="btn" onclick="clearAllLinks()">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let links = [];
+
+        function addLink() {
+            const linkName = document.getElementById('linkName').value.trim();
+            const fileName = document.getElementById('fileName').value.trim();
+            
+            if (!linkName || !fileName) {
+                alert('Please fill in both fields');
+                return;
+            }
+            
+            // Check if link already exists
+            if (links.some(link => link.fileName === fileName)) {
+                alert('This file is already in the list');
+                return;
+            }
+            
+            links.push({ linkName, fileName });
+            updateLinksList();
+            
+            // Clear inputs
+            document.getElementById('linkName').value = '';
+            document.getElementById('fileName').value = '';
+        }
+
+        function deleteLink(index) {
+            if (confirm('Are you sure you want to remove this link?')) {
+                links.splice(index, 1);
+                updateLinksList();
+            }
+        }
+
+        function updateLinksList() {
+            const linksList = document.getElementById('linksList');
+            
+            if (links.length === 0) {
+                linksList.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📁</div>
+                        <p>No links added yet. Add your first HTML file link above!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            linksList.innerHTML = links.map((link, index) => `
+                <div class="link-item">
+                    <div>
+                        <a href="${link.fileName}" target="_blank">${link.linkName}</a>
+                        <div class="link-path">${link.fileName}</div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteLink(${index})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function clearAllLinks() {
+            if (links.length === 0) {
+                alert('No links to clear');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to remove all links?')) {
+                links = [];
+                updateLinksList();
+            }
+        }
+
+        function exportIndex() {
+            if (links.length === 0) {
+                alert('Add some links first before exporting');
+                return;
+            }
+            
+            const indexContent = generateIndexHTML();
+            downloadFile('index.html', indexContent);
+        }
+
+        function generateIndexHTML() {
+            const linksHTML = links.map(link => 
+                `        <li><a href="${link.fileName}">${link.linkName}</a></li>`
+            ).join('\n');
+            
+            return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML File Index</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        li {
+            margin-bottom: 15px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border: 2px solid #e1e8ff;
+            transition: all 0.3s ease;
+        }
+        
+        li:hover {
+            border-color: #4facfe;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.1);
+        }
+        
+        a {
+            display: block;
+            padding: 20px;
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #2d3748;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📂 HTML File Index</h1>
+        <ul>
+${linksHTML}
+        </ul>
+        <div class="footer">
+            Generated on ${new Date().toLocaleDateString()}
+        </div>
+    </div>
+</body>
+</html>`;
+        }
+
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Add Enter key support for form inputs
+        document.getElementById('linkName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('fileName').focus();
+            }
+        });
+
+        document.getElementById('fileName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addLink();
+            }
+        });
+    </script>
+</body>
+</html>
