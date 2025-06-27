@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APA vs. MLA: Venn Diagram</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .venn-container {
+            position: relative;
+            width: 800px; /* Adjust as needed */
+            height: 400px; /* Adjust as needed */
+            margin-top: 50px;
+        }
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* SVG Circle Styling */
+        .venn-circle {
+            fill-opacity: 0.7;
+            stroke: #333;
+            stroke-width: 2;
+            transition: fill-opacity 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .venn-circle.apa {
+            fill: #3498db; /* Blue */
+        }
+
+        .venn-circle.mla {
+            fill: #e74c3c; /* Red */
+        }
+
+        .venn-circle.overlap {
+            fill: #27ae60; /* Green (will be covered by blending) */
+        }
+
+        /* Highlight on hover */
+        .venn-circle:hover {
+            fill-opacity: 0.9;
+        }
+
+        /* Text Styling */
+        .venn-label {
+            font-weight: bold;
+            font-size: 20px;
+            text-anchor: middle;
+            fill: #333;
+            pointer-events: none; /* Allows mouse events to pass through to circles */
+        }
+
+        .venn-item {
+            font-size: 14px;
+            text-anchor: start;
+            fill: #000; /* Default text color for items */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 500;
+        }
+
+        .venn-item.apa-text {
+            fill: #000;
+        }
+
+        .venn-item.mla-text {
+            fill: #000;
+        }
+
+        .venn-item.shared-text {
+            fill: #000;
+        }
+
+
+        /* Tooltip (for showing details on hover) */
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+            display: none;
+            max-width: 300px;
+            font-size: 13px;
+            line-height: 1.5;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: opacity 0.2s;
+        }
+        .tooltip ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        .tooltip li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>APA vs. MLA (9th Edition): A Venn Diagram for Freshman Composition</h1>
+    <p>Hover over the circles to see key characteristics!</p>
+
+    <div class="venn-container">
+        <svg viewBox="0 0 800 400">
+            <defs>
+                <filter id="mix">
+                    <feBlend in="SourceGraphic" in2="BackgroundImage" mode="multiply"/>
+                </filter>
+            </defs>
+
+            <circle class="venn-circle apa" cx="280" cy="200" r="150" data-category="apa"></circle>
+            <circle class="venn-circle mla" cx="520" cy="200" r="150" data-category="mla"></circle>
+
+            <text class="venn-label" x="280" y="80">APA</text>
+            <text class="venn-label" x="520" y="80">MLA (9th Ed.)</text>
+            <text class="venn-label" x="400" y="190">Similarities</text>
+
+            <text class="venn-item apa-text" x="180" y="240" >• Used in Social Sciences, Psychology</text>
+            <text class="venn-item apa-text" x="180" y="260" >• Title page required</text>
+            <text class="venn-item apa-text" x="180" y="280" >• Abstract typically required</text>
+            <text class="venn-item apa-text" x="180" y="300" >• In-text: (Author, Year, p. X)</text>
+            <text class="venn-item apa-text" x="180" y="320" >• Reference list: "References"</text>
+            <text class="venn-item apa-text" x="180" y="340" >• Author initials (J. Smith)</text>
+
+            <text class="venn-item mla-text" x="430" y="240" >• Used in Humanities, English, Arts</text>
+            <text class="venn-item mla-text" x="430" y="260" >• No title page (usually)</text>
+            <text class="venn-item mla-text" x="430" y="280" >• No abstract (usually)</text>
+            <text class="venn-item mla-text" x="430" y="300" >• In-text: (Author page #)</text>
+            <text class="venn-item mla-text" x="430" y="320" >• Reference list: "Works Cited"</text>
+            <text class="venn-item mla-text" x="430" y="340" >• Full first name (Jane Smith)</text>
+
+            <text class="venn-item shared-text" x="330" y="210" >• Double-spaced</text>
+            <text class="venn-item shared-text" x="330" y="230" >• 1-inch margins</text>
+            <text class="venn-item shared-text" x="330" y="250" >• 12pt legible font</text>
+            <text class="venn-item shared-text" x="330" y="270" >• Page numbers (top right)</text>
+            <text class="venn-item shared-text" x="330" y="290" >• In-text citations</text>
+            <text class="venn-item shared-text" x="330" y="310" >• Alphabetical source list</text>
+            <text class="venn-item shared-text" x="330" y="330" >• Hanging indent for sources</text>
+
+
+        </svg>
+    </div>
+
+    <div class="tooltip" id="venn-tooltip"></div>
+
+    <script>
+        const apaData = [
+            "Used in Social Sciences, Psychology, Education, Health Sciences",
+            "Title page required",
+            "Abstract typically required (150-250 words)",
+            "In-text citation: (Author, Year, p. X) or (Author, Year)",
+            "Reference list titled 'References'",
+            "Author's first name: Initial only (e.g., Smith, J.)",
+            "Date of publication after author in reference list",
+            "Title capitalization: Sentence case for most titles",
+            "Running head: Short title and page number (student papers usually just page number)",
+            "Block quotes: 40+ words, indented 0.5 inch, no quotation marks, citation after punctuation",
+            "Focus: Date of publication, empirical research"
+        ];
+
+        const mlaData = [
+            "Used in Humanities, English, Literature, Arts",
+            "No title page (unless specified by instructor)",
+            "No abstract",
+            "In-text citation: (Author page #)",
+            "Reference list titled 'Works Cited'",
+            "Author's first name: Full first name (e.g., Smith, Jane)",
+            "Date of publication near end of citation for most sources",
+            "Title capitalization: Title case (capitalize all major words)",
+            "Running head: Author's last name and page number",
+            "Block quotes: 4+ lines of prose or 3+ lines of verse, indented 0.5 inch, no quotation marks, citation after punctuation",
+            "Focus: Authorship, text-based research"
+        ];
+
+        const sharedData = [
+            "Double-spaced throughout paper",
+            "1-inch margins on all sides",
+            "12-point legible font (e.g., Times New Roman, Arial)",
+            "Page numbers in upper right corner",
+            "Use of in-text citations (parenthetical)",
+            "Alphabetical list of sources at the end of the paper",
+            "Hanging indent for source list entries",
+            "Crediting sources to avoid plagiarism",
+            "Consistent formatting for readability",
+            "Provide full publication details for sources"
+        ];
+
+        const tooltip = document.getElementById('venn-tooltip');
+        const circles = document.querySelectorAll('.venn-circle');
+
+        circles.forEach(circle => {
+            circle.addEventListener('mouseenter', (event) => {
+                const category = event.target.dataset.category;
+                let dataToShow = [];
+                let title = "";
+
+                if (category === 'apa') {
+                    dataToShow = apaData;
+                    title = "APA Format (American Psychological Association)";
+                } else if (category === 'mla') {
+                    dataToShow = mlaData;
+                    title = "MLA Format (Modern Language Association) - 9th Edition";
+                }
+
+                if (category) { // Only show tooltip for APA/MLA circles
+                    tooltip.innerHTML = `<h4>${title}</h4><ul>${dataToShow.map(item => `<li>${item}</li>`).join('')}</ul>`;
+                    tooltip.style.display = 'block';
+                    // Position tooltip near the mouse
+                    tooltip.style.left = (event.pageX + 10) + 'px';
+                    tooltip.style.top = (event.pageY + 10) + 'px';
+                }
+            });
+
+            circle.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+
+            // For the shared area (which is visually the overlap of the two circles)
+            // We can't easily target just the overlap with a simple SVG circle.
+            // A more robust solution for the overlap would involve d3.js or manual path drawing.
+            // For this example, the "Shared" label itself can imply the overlap.
+            // If you want interactive detail on the overlap, you might need to create an invisible
+            // SVG path representing the intersection and attach an event listener to it.
+        });
+
+        // Optional: Highlight shared area if a user hovers over both, but this is complex without dedicated libraries.
+        // For simplicity, the text within the shared area is directly placed.
+    </script>
+
+</body>
+</html>
