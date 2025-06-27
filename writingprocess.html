@@ -8,7 +8,7 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 2rem;
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
       background: linear-gradient(135deg, #f0f4f8, #e0f7fa);
       color: #333;
@@ -51,50 +51,59 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       font-size: 1.1rem;
       line-height: 1.6;
+      transition: all 0.3s ease-in-out;
     }
   </style>
 </head>
 <body>
-  <h1>Freshman Composition Writing Process</h1>
+  <h1>Mastering the Writing Process</h1>
+  <p style="text-align: center; max-width: 700px; margin: auto; margin-bottom: 2rem; font-size: 1.1rem;">
+    Learn the proven steps used by college composition instructors to develop clear, organized, and compelling writing. Click each step to explore practical strategies and expectations.
+  </p>
   <div class="buttons" id="stepButtons"></div>
   <div class="card" id="stepContent"></div>
 
   <script>
     const steps = [
       {
-        title: "1. Prewriting",
+        title: "1. Understand the Assignment",
         description:
-          "Before writing, take time to brainstorm ideas using techniques like freewriting, clustering, or asking 'what, why, who, and how.' Outline your main points and locate sources if needed."
+          "Carefully read the prompt and grading rubric. Identify the purpose, audience, required length, and citation format (e.g., MLA or APA). Ask your instructor questions if anything is unclear."
       },
       {
-        title: "2. Drafting",
+        title: "2. Prewriting",
         description:
-          "Write a first draft focusing on getting your ideas down. Don't worry about grammar or perfect wording—just create a rough structure with an introduction, body paragraphs, and conclusion."
+          "Use brainstorming, freewriting, or graphic organizers to generate ideas. Create a working thesis and outline your main points. Research credible sources as needed."
       },
       {
-        title: "3. Peer Review",
+        title: "3. Drafting",
         description:
-          "Exchange drafts with classmates. Give and receive feedback on what’s working well and what can be improved in content, clarity, and flow. Use peer insights to strengthen your argument."
+          "Begin writing with a clear introduction, body, and conclusion. Focus on developing ideas with support and examples. Don’t worry about perfection—just get your ideas down."
       },
       {
-        title: "4. Revising",
+        title: "4. Peer Review",
         description:
-          "Revise your paper to improve logic, support, and organization. Add stronger evidence, clarify weak points, and restructure paragraphs as needed. Focus on big-picture changes."
+          "Swap drafts with a classmate or use writing center support. Offer specific, constructive feedback on clarity, organization, and argument strength."
       },
       {
-        title: "5. Editing",
+        title: "5. Revising",
         description:
-          "Now fine-tune grammar, punctuation, spelling, and word choice. Read aloud to catch awkward sentences. Make sure your formatting follows MLA or APA guidelines."
+          "Rethink and refine your draft by adding depth to ideas, improving structure, and clarifying points. Revision often includes deleting, rewriting, and reorganizing content."
       },
       {
-        title: "6. Final Submission",
+        title: "6. Editing",
         description:
-          "Prepare your paper for submission by double-checking the rubric, formatting, and including a works cited or references page. Upload it to your course platform (e.g., Canvas, Blackboard)."
+          "Correct grammar, punctuation, and formatting errors. Review for word choice, sentence clarity, and consistency in tone and citations. Read your paper out loud to spot issues."
       },
       {
-        title: "7. Reflection",
+        title: "7. Final Submission",
         description:
-          "After submitting, take a moment to reflect: What did you learn? What would you do differently? Reflection helps you grow as a writer and prepare for future assignments."
+          "Ensure your paper meets all requirements: correct format, citations, and clean presentation. Submit through your college’s platform (e.g., Canvas or Blackboard) before the deadline."
+      },
+      {
+        title: "8. Reflect and Grow",
+        description:
+          "After submission, reflect on the feedback and your own writing process. Consider what worked well and what you could improve next time. This helps develop long-term writing skills."
       }
     ];
 
