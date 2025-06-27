@@ -6,16 +6,18 @@
   <title>Freshman Writing Process</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 2rem;
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
-      background-color: #f9f9f9;
+      background: linear-gradient(135deg, #f0f4f8, #e0f7fa);
+      color: #333;
     }
     h1 {
       text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #006064;
     }
     .buttons {
       display: flex;
@@ -25,22 +27,30 @@
       margin-bottom: 2rem;
     }
     button {
-      padding: 0.5rem 1rem;
-      border: 2px solid #333;
-      background-color: white;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      background-color: #e0f2f1;
+      color: #004d40;
+      font-weight: bold;
+      border-radius: 12px;
       cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.3s ease;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    button:hover {
+      background-color: #b2dfdb;
     }
     button.active {
-      background-color: #333;
+      background-color: #004d40;
       color: white;
     }
     .card {
-      padding: 1.5rem;
+      padding: 2rem;
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-size: 1.1rem;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -54,32 +64,37 @@
       {
         title: "1. Prewriting",
         description:
-          "Students brainstorm, outline, and gather sources. Techniques include mind mapping, freewriting, and group discussions."
+          "Before writing, take time to brainstorm ideas using techniques like freewriting, clustering, or asking 'what, why, who, and how.' Outline your main points and locate sources if needed."
       },
       {
         title: "2. Drafting",
         description:
-          "The first draft is written with a focus on getting ideas down, not perfection. Structure is emphasized: intro, body, conclusion."
+          "Write a first draft focusing on getting your ideas down. Don't worry about grammar or perfect wording—just create a rough structure with an introduction, body paragraphs, and conclusion."
       },
       {
         title: "3. Peer Review",
         description:
-          "Students exchange drafts and give constructive feedback on clarity, structure, grammar, and ideas."
+          "Exchange drafts with classmates. Give and receive feedback on what’s working well and what can be improved in content, clarity, and flow. Use peer insights to strengthen your argument."
       },
       {
         title: "4. Revising",
         description:
-          "Based on feedback, students improve content, organization, and flow. Major reworking may occur."
+          "Revise your paper to improve logic, support, and organization. Add stronger evidence, clarify weak points, and restructure paragraphs as needed. Focus on big-picture changes."
       },
       {
         title: "5. Editing",
         description:
-          "Students fix grammar, punctuation, and spelling errors. Formatting is polished."
+          "Now fine-tune grammar, punctuation, spelling, and word choice. Read aloud to catch awkward sentences. Make sure your formatting follows MLA or APA guidelines."
       },
       {
         title: "6. Final Submission",
         description:
-          "Students submit the final version of the paper. Instructors may use rubrics to assess key learning outcomes."
+          "Prepare your paper for submission by double-checking the rubric, formatting, and including a works cited or references page. Upload it to your course platform (e.g., Canvas, Blackboard)."
+      },
+      {
+        title: "7. Reflection",
+        description:
+          "After submitting, take a moment to reflect: What did you learn? What would you do differently? Reflection helps you grow as a writer and prepare for future assignments."
       }
     ];
 
