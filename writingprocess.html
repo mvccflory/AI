@@ -1,130 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Freshman Writing Process</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 2rem;
-      max-width: 1000px;
-      margin: auto;
-      background: linear-gradient(135deg, #f0f4f8, #e0f7fa);
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #006064;
-    }
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
-    button {
-      padding: 0.75rem 1.25rem;
-      border: none;
-      background-color: #e0f2f1;
-      color: #004d40;
-      font-weight: bold;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    button:hover {
-      background-color: #b2dfdb;
-    }
-    button.active {
-      background-color: #004d40;
-      color: white;
-    }
-    .card {
-      padding: 2rem;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      font-size: 1.1rem;
-      line-height: 1.6;
-      transition: all 0.3s ease-in-out;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Writing Process - Interactive Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .process-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .process-step {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .process-step:nth-child(1) { animation-delay: 0.1s; }
+        .process-step:nth-child(2) { animation-delay: 0.2s; }
+        .process-step:nth-child(3) { animation-delay: 0.3s; }
+        .process-step:nth-child(4) { animation-delay: 0.4s; }
+        .process-step:nth-child(5) { animation-delay: 0.5s; }
+
+        .process-step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .step-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .step-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .step-summary {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .step-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            opacity: 0;
+        }
+
+        .step-details.active {
+            max-height: 500px;
+            opacity: 1;
+            transition: max-height 0.5s ease, opacity 0.3s ease 0.2s;
+        }
+
+        .step-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step-details li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+
+        .step-details li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .click-hint {
+            color: #999;
+            font-size: 0.9em;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            max-width: 1200px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+           
+            .process-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Mastering the Writing Process</h1>
-  <p style="text-align: center; max-width: 700px; margin: auto; margin-bottom: 2rem; font-size: 1.1rem;">
-    Learn the proven steps used by college composition instructors to develop clear, organized, and compelling writing. Click each step to explore practical strategies and expectations.
-  </p>
-  <div class="buttons" id="stepButtons"></div>
-  <div class="card" id="stepContent"></div>
+    <div class="header">
+        <h1>The Writing Process</h1>
+        <p>Click each step to explore the journey from idea to finished piece</p>
+    </div>
 
-  <script>
-    const steps = [
-      {
-        title: "1. Understand the Assignment",
-        description:
-          "Carefully read the prompt and grading rubric. Identify the purpose, audience, required length, and citation format (e.g., MLA or APA). Ask your instructor questions if anything is unclear."
-      },
-      {
-        title: "2. Prewriting",
-        description:
-          "Use brainstorming, freewriting, or graphic organizers to generate ideas. Create a working thesis and outline your main points. Research credible sources as needed."
-      },
-      {
-        title: "3. Drafting",
-        description:
-          "Begin writing with a clear introduction, body, and conclusion. Focus on developing ideas with support and examples. Don’t worry about perfection—just get your ideas down."
-      },
-      {
-        title: "4. Peer Review",
-        description:
-          "Swap drafts with a classmate or use writing center support. Offer specific, constructive feedback on clarity, organization, and argument strength."
-      },
-      {
-        title: "5. Revising",
-        description:
-          "Rethink and refine your draft by adding depth to ideas, improving structure, and clarifying points. Revision often includes deleting, rewriting, and reorganizing content."
-      },
-      {
-        title: "6. Editing",
-        description:
-          "Correct grammar, punctuation, and formatting errors. Review for word choice, sentence clarity, and consistency in tone and citations. Read your paper out loud to spot issues."
-      },
-      {
-        title: "7. Final Submission",
-        description:
-          "Ensure your paper meets all requirements: correct format, citations, and clean presentation. Submit through your college’s platform (e.g., Canvas or Blackboard) before the deadline."
-      },
-      {
-        title: "8. Reflect and Grow",
-        description:
-          "After submission, reflect on the feedback and your own writing process. Consider what worked well and what you could improve next time. This helps develop long-term writing skills."
-      }
-    ];
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
 
-    const buttonContainer = document.getElementById('stepButtons');
-    const contentContainer = document.getElementById('stepContent');
+    <div class="process-container">
+        <div class="process-step" onclick="toggleStep(this, 1)">
+            <div class="step-number">1</div>
+            <span class="step-icon">💭</span>
+            <h2 class="step-title">Prewriting</h2>
+            <p class="step-summary">Generate ideas and plan your approach before you begin writing.</p>
+            <div class="step-details">
+                <ul>
+                    <li>Brainstorm ideas through freewriting or mind mapping</li>
+                    <li>Research your topic thoroughly</li>
+                    <li>Identify your audience and purpose</li>
+                    <li>Create an outline or organizational structure</li>
+                    <li>Gather evidence and supporting materials</li>
+                </ul>
+            </div>
+            <p class="click-hint">🖱️ Click to explore</p>
+        </div>
 
-    function renderStep(index) {
-      contentContainer.textContent = steps[index].description;
-      document.querySelectorAll('button').forEach((btn, i) => {
-        btn.classList.toggle('active', i === index);
-      });
-    }
+        <div class="process-step" onclick="toggleStep(this, 2)">
+            <div class="step-number">2</div>
+            <span class="step-icon">✍️</span>
+            <h2 class="step-title">Drafting</h2>
+            <p class="step-summary">Transform your ideas into a complete first draft.</p>
+            <div class="step-details">
+                <ul>
+                    <li>Write freely without worrying about perfection</li>
+                    <li>Follow your outline but be flexible</li>
+                    <li>Focus on getting ideas down on paper</li>
+                    <li>Develop your thesis and main arguments</li>
+                    <li>Don't stop to edit—keep the momentum going</li>
+                </ul>
+            </div>
+            <p class="click-hint">🖱️ Click to explore</p>
+        </div>
 
-    steps.forEach((step, index) => {
-      const btn = document.createElement('button');
-      btn.textContent = step.title;
-      btn.onclick = () => renderStep(index);
-      buttonContainer.appendChild(btn);
-    });
+        <div class="process-step" onclick="toggleStep(this, 3)">
+            <div class="step-number">3</div>
+            <span class="step-icon">🔄</span>
+            <h2 class="step-title">Revising</h2>
+            <p class="step-summary">Improve the content, organization, and flow of your writing.</p>
+            <div class="step-details">
+                <ul>
+                    <li>Review your thesis and main arguments</li>
+                    <li>Reorganize paragraphs for better flow</li>
+                    <li>Add, delete, or move content as needed</li>
+                    <li>Strengthen transitions between ideas</li>
+                    <li>Ensure each paragraph supports your thesis</li>
+                </ul>
+            </div>
+            <p class="click-hint">🖱️ Click to explore</p>
+        </div>
 
-    renderStep(0);
-  </script>
+        <div class="process-step" onclick="toggleStep(this, 4)">
+            <div class="step-number">4</div>
+            <span class="step-icon">🔍</span>
+            <h2 class="step-title">Editing</h2>
+            <p class="step-summary">Polish your writing by fixing grammar, style, and clarity.</p>
+            <div class="step-details">
+                <ul>
+                    <li>Check grammar, spelling, and punctuation</li>
+                    <li>Improve sentence variety and word choice</li>
+                    <li>Eliminate wordiness and redundancy</li>
+                    <li>Ensure consistent tone and style</li>
+                    <li>Verify citations and formatting</li>
+                </ul>
+            </div>
+            <p class="click-hint">🖱️ Click to explore</p>
+        </div>
+
+        <div class="process-step" onclick="toggleStep(this, 5)">
+            <div class="step-number">5</div>
+            <span class="step-icon">🚀</span>
+            <h2 class="step-title">Publishing</h2>
+            <p class="step-summary">Prepare your final draft for submission or sharing.</p>
+            <div class="step-details">
+                <ul>
+                    <li>Format according to requirements (MLA, APA, etc.)</li>
+                    <li>Create a clean, professional layout</li>
+                    <li>Double-check all citations and references</li>
+                    <li>Proofread one final time</li>
+                    <li>Submit or share your completed work</li>
+                </ul>
+            </div>
+            <p class="click-hint">🖱️ Click to explore</p>
+        </div>
+    </div>
+
+    <script>
+        let openSteps = new Set();
+
+        function toggleStep(element, stepNumber) {
+            const details = element.querySelector('.step-details');
+            const isActive = details.classList.contains('active');
+           
+            if (isActive) {
+                details.classList.remove('active');
+                openSteps.delete(stepNumber);
+            } else {
+                details.classList.add('active');
+                openSteps.add(stepNumber);
+            }
+           
+            updateProgress();
+           
+            // Add a subtle animation effect
+            element.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                element.style.transform = '';
+            }, 200);
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const percentage = (openSteps.size / 5) * 100;
+            progressFill.style.width = percentage + '%';
+        }
+
+        // Add hover effect for hint text
+        document.querySelectorAll('.process-step').forEach(step => {
+            step.addEventListener('mouseenter', function() {
+                const hint = this.querySelector('.click-hint');
+                hint.style.transform = 'translateX(5px)';
+            });
+           
+            step.addEventListener('mouseleave', function() {
+                const hint = this.querySelector('.click-hint');
+                hint.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
 </body>
 </html>
