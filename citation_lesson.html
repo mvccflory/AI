@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering In-Text Citations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #E6E6FA 0%, #32CD32 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #E6E6FA, #FF1493);
+            padding: 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(230, 230, 250, 0.3), rgba(255, 20, 147, 0.1));
+            border: 2px solid #E6E6FA;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #FF1493;
+        }
+
+        .section h2 {
+            color: #FF1493;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .citation-box {
+            background: linear-gradient(45deg, #32CD32, #E6E6FA);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #FF1493;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .example {
+            background: rgba(50, 205, 50, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px dashed #32CD32;
+            font-style: italic;
+        }
+
+        .interactive-btn {
+            background: linear-gradient(45deg, #FF1493, #32CD32);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .interactive-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .quiz-container {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(230, 230, 250, 0.3));
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 3px solid #E6E6FA;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FF1493;
+            margin-bottom: 15px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: rgba(50, 205, 50, 0.2);
+            border-color: #32CD32;
+            transform: translateX(10px);
+        }
+
+        .correct {
+            background: rgba(50, 205, 50, 0.3) !important;
+            border-color: #32CD32 !important;
+        }
+
+        .incorrect {
+            background: rgba(255, 20, 147, 0.3) !important;
+            border-color: #FF1493 !important;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .success {
+            background: rgba(50, 205, 50, 0.2);
+            color: #006400;
+            border: 2px solid #32CD32;
+        }
+
+        .error {
+            background: rgba(255, 20, 147, 0.2);
+            color: #8B0000;
+            border: 2px solid #FF1493;
+        }
+
+        .floating-icon {
+            position: fixed;
+            font-size: 2rem;
+            color: #FF1493;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(230, 230, 250, 0.5);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #32CD32, #FF1493);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Mastering In-Text Citations</h1>
+            <p>Your Guide to Academic Writing Excellence</p>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+
+            <div class="section" id="section1">
+                <h2>📚 What Are In-Text Citations?</h2>
+                <p>In-text citations are brief references within your paper that point readers to the full source information in your bibliography or works cited page. They're like road signs that guide your readers to your sources!</p>
+                
+                <div class="citation-box">
+                    <strong>Why Use In-Text Citations?</strong><br>
+                    ✓ Give credit to original authors<br>
+                    ✓ Avoid plagiarism<br>
+                    ✓ Allow readers to find your sources<br>
+                    ✓ Show your research credibility
+                </div>
+
+                <button class="interactive-btn" onclick="nextSection(1)">Let's Learn More! 🚀</button>
+            </div>
+
+            <div class="section hidden" id="section2">
+                <h2>📖 APA Style Citations</h2>
+                <p>APA (American Psychological Association) style is commonly used in social sciences, education, and psychology.</p>
+                
+                <div class="example">
+                    <strong>Basic Format:</strong> (Author, Year)<br>
+                    <strong>Example:</strong> Climate change affects global temperatures (Smith, 2023).
+                </div>
+
+                <div class="example">
+                    <strong>With Page Number:</strong> (Author, Year, p. #)<br>
+                    <strong>Example:</strong> "Global warming is accelerating" (Johnson, 2022, p. 45).
+                </div>
+
+                <div class="example">
+                    <strong>Multiple Authors:</strong><br>
+                    Two authors: (Smith & Jones, 2023)<br>
+                    Three or more: (Brown et al., 2023)
+                </div>
+
+                <button class="interactive-btn" onclick="nextSection(2)">Continue to MLA! 📝</button>
+            </div>
+
+            <div class="section hidden" id="section3">
+                <h2>📜 MLA Style Citations</h2>
+                <p>MLA (Modern Language Association) style is typically used in literature, arts, and humanities.</p>
+                
+                <div class="example">
+                    <strong>Basic Format:</strong> (Author Page#)<br>
+                    <strong>Example:</strong> Shakespeare explores themes of love and betrayal (Wilson 234).
+                </div>
+
+                <div class="example">
+                    <strong>With Quote:</strong><br>
+                    <strong>Example:</strong> The author states that "literature reflects society" (Davis 67).
+                </div>
+
+                <div class="example">
+                    <strong>No Author:</strong> ("Title" Page#)<br>
+                    <strong>Example:</strong> Recent studies show improvement ("Education Today" 12).
+                </div>
+
+                <button class="interactive-btn" onclick="nextSection(3)">Ready for Chicago Style! 🏛️</button>
+            </div>
+
+            <div class="section hidden" id="section4">
+                <h2>🏛️ Chicago Style Citations</h2>
+                <p>Chicago style offers two systems: Notes-Bibliography and Author-Date. Here's the Author-Date system:</p>
+                
+                <div class="example">
+                    <strong>Basic Format:</strong> (Author Year, Page#)<br>
+                    <strong>Example:</strong> Historical evidence supports this claim (Thompson 2023, 89).
+                </div>
+
+                <div class="example">
+                    <strong>Multiple Works:</strong><br>
+                    <strong>Example:</strong> Several studies confirm this (Adams 2022; Baker 2023; Clark 2024).
+                </div>
+
+                <button class="interactive-btn" onclick="nextSection(4)">Time for Practice! 🎯</button>
+            </div>
+
+            <div class="section hidden" id="section5">
+                <h2>🎯 Interactive Quiz</h2>
+                <div class="quiz-container">
+                    <div class="quiz-question" id="question">
+                        Which APA citation is correct for a direct quote from page 42 of a 2023 book by Dr. Sarah Miller?
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        A) (Miller, 2023)
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">
+                        B) (Miller, 2023, p. 42)
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        C) (Miller 42)
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        D) (Sarah Miller, 2023, page 42)
+                    </div>
+                    <div id="feedback" class="feedback hidden"></div>
+                    <button class="interactive-btn hidden" id="nextQuiz" onclick="nextQuestion()">Next Question 🔄</button>
+                </div>
+            </div>
+
+            <div class="section hidden" id="section6">
+                <h2>🌟 Quick Tips for Success</h2>
+                <div class="citation-box">
+                    <strong>Pro Tips:</strong><br>
+                    📌 Always check your assignment requirements for citation style<br>
+                    📌 Use citation management tools like Zotero or EndNote<br>
+                    📌 When in doubt, cite it out!<br>
+                    📌 Keep track of all your sources as you research<br>
+                    📌 Double-check formatting before submitting
+                </div>
+                <button class="interactive-btn" onclick="congratulations()">Complete Lesson! 🎉</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        let currentQuestion = 0;
+        let score = 0;
+        
+        const questions = [
+            {
+                question: "Which APA citation is correct for a direct quote from page 42 of a 2023 book by Dr. Sarah Miller?",
+                options: [
+                    "(Miller, 2023)",
+                    "(Miller, 2023, p. 42)",
+                    "(Miller 42)",
+                    "(Sarah Miller, 2023, page 42)"
+                ],
+                correct: 1
+            },
+            {
+                question: "In MLA style, how would you cite page 156 from a book by John Smith?",
+                options: [
+                    "(Smith, 156)",
+                    "(Smith p. 156)",
+                    "(Smith 156)",
+                    "(John Smith, page 156)"
+                ],
+                correct: 2
+            },
+            {
+                question: "Which citation style typically uses footnotes or endnotes?",
+                options: [
+                    "APA",
+                    "MLA", 
+                    "Chicago Notes-Bibliography",
+                    "All of the above"
+                ],
+                correct: 2
+            }
+        ];
+
+        function updateProgress() {
+            const progress = (currentSection / 6) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function nextSection(section) {
+            document.getElementById(`section${section}`).classList.add('hidden');
+            currentSection++;
+            document.getElementById(`section${currentSection}`).classList.remove('hidden');
+            updateProgress();
+            createFloatingIcon();
+        }
+
+        function checkAnswer(element, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('nextQuiz');
+            
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.className = 'feedback success';
+                feedback.textContent = '🎉 Correct! Great job!';
+                score++;
+            } else {
+                element.classList.add('incorrect');
+                const correctOption = options[questions[currentQuestion].correct];
+                correctOption.classList.add('correct');
+                feedback.className = 'feedback error';
+                feedback.textContent = '❌ Not quite. The correct answer is highlighted in green.';
+            }
+            
+            feedback.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                nextSection(5);
+            }
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question').textContent = q.question;
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach((opt, index) => {
+                opt.textContent = String.fromCharCode(65 + index) + ') ' + q.options[index];
+                opt.className = 'quiz-option';
+                opt.style.pointerEvents = 'auto';
+                opt.onclick = () => checkAnswer(opt, index === q.correct);
+            });
+            
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('nextQuiz').classList.add('hidden');
+        }
+
+        function createFloatingIcon() {
+            const icons = ['📚', '✨', '🎓', '📝', '🌟'];
+            const icon = document.createElement('div');
+            icon.className = 'floating-icon';
+            icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+            icon.style.left = Math.random() * window.innerWidth + 'px';
+            icon.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(icon);
+            
+            setTimeout(() => {
+                icon.remove();
+            }, 3000);
+        }
+
+        function congratulations() {
+            alert(`🎉 Congratulations! You've completed the In-Text Citations lesson!\n\nYour quiz score: ${score}/${questions.length}\n\nYou're now ready to cite like a pro! 🌟`);
+            
+            // Create celebration effect
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => createFloatingIcon(), i * 200);
+            }
+        }
+
+        // Initialize
+        updateProgress();
+        
+        // Add some initial floating icons
+        setInterval(createFloatingIcon, 5000);
+    </script>
+</body>
+</html>
