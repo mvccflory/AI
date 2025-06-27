@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLA 9th Edition Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin-bottom: 30px;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            background: white;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+        }
+
+        .card-content {
+            width: 100%;
+        }
+
+        .card-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .card-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .answer-content {
+            color: #2d3436;
+        }
+
+        .answer-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #636e72;
+        }
+
+        .answer-content p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .answer-content .example {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            box-shadow: 0 4px 15px rgba(238, 90, 36, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 90, 36, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn-info {
+            background: linear-gradient(45deg, #0984e3, #74b9ff);
+            color: white;
+            box-shadow: 0 4px 15px rgba(9, 132, 227, 0.3);
+        }
+
+        .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(9, 132, 227, 0.4);
+        }
+
+        .progress {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(45deg, #00b894, #00a085);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .card-counter {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .flashcard-container {
+                height: 350px;
+            }
+            
+            .card-face {
+                padding: 30px;
+            }
+            
+            .card-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .controls {
+                gap: 15px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>MLA 9th Edition Study Cards</h1>
+        <p>Master the essentials of MLA formatting and citation</p>
+    </div>
+
+    <div class="card-counter">
+        <span id="currentCard">1</span> of <span id="totalCards">15</span>
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+            <div class="card-face card-front">
+                <div class="card-content">
+                    <h2 id="question">What are the basic formatting requirements for an MLA paper?</h2>
+                    <p>Click to reveal the answer</p>
+                </div>
+                <div class="flip-hint">Click to flip</div>
+            </div>
+            <div class="card-face card-back">
+                <div class="card-content answer-content">
+                    <h3>Basic MLA Formatting</h3>
+                    <p id="answer">12-point Times New Roman font, double-spaced throughout, 1-inch margins on all sides, and pages numbered in the upper right corner with your last name before the page number.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-secondary" onclick="previousCard()">← Previous</button>
+        <button class="btn btn-info" onclick="flipCard()">Flip Card</button>
+        <button class="btn btn-primary" onclick="nextCard()">Next →</button>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-info" onclick="shuffleCards()">🔀 Shuffle</button>
+        <button class="btn btn-secondary" onclick="resetCards()">🔄 Reset</button>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                question: "What are the basic formatting requirements for an MLA paper?",
+                answer: "12-point Times New Roman font, double-spaced throughout, 1-inch margins on all sides, and pages numbered in the upper right corner with your last name before the page number.",
+                category: "Basic Formatting"
+            },
+            {
+                question: "How do you format the header on the first page of an MLA paper?",
+                answer: "In the upper left corner, include your name, instructor's name, course name, and date (day month year format). Each item should be on a separate line.",
+                category: "Header Formatting"
+            },
+            {
+                question: "What is the correct format for a basic in-text citation in MLA?",
+                answer: "Author's last name and page number in parentheses at the end of the sentence, before the period. Example: (Smith 23).",
+                category: "In-Text Citations"
+            },
+            {
+                question: "How do you cite a source with no author in MLA?",
+                answer: "Use the first word or first few words of the title in quotation marks for articles or italics for books, followed by the page number. Example: (\"Climate Change\" 15).",
+                category: "In-Text Citations"
+            },
+            {
+                question: "What is the basic format for a book citation in the Works Cited list?",
+                answer: "Author Last Name, First Name. Title of Book. Publisher, Publication Date.",
+                category: "Works Cited"
+            },
+            {
+                question: "How do you format a website citation in MLA Works Cited?",
+                answer: "Author Last Name, First Name. \"Title of Web Page.\" Website Name, Date of Publication, URL.",
+                category: "Works Cited"
+            },
+            {
+                question: "What is the correct way to format the Works Cited page?",
+                answer: "Center the title 'Works Cited' at the top, double-space throughout, alphabetize entries by author's last name, and use hanging indent for each entry.",
+                category: "Works Cited"
+            },
+            {
+                question: "How do you cite a direct quote longer than 4 lines in MLA?",
+                answer: "Use block quote format: start on a new line, indent the entire quote 1/2 inch from the left margin, double-space, and place the citation after the final punctuation.",
+                category: "Quotations"
+            },
+            {
+                question: "What is the MLA format for citing multiple authors?",
+                answer: "For 2 authors: (Smith and Jones 45). For 3+ authors: (Smith et al. 67). In Works Cited, list all authors for up to 3; for 4+, list first author followed by 'et al.'",
+                category: "Multiple Authors"
+            },
+            {
+                question: "How do you indicate a page range in MLA citations?",
+                answer: "Use a hyphen between page numbers. For pages 10-19, write 10-19. For pages 100-109, write 100-09. For pages 96-117, write 96-117.",
+                category: "Page Numbers"
+            },
+            {
+                question: "What is the correct format for journal article citations in MLA?",
+                answer: "Author Last Name, First Name. \"Article Title.\" Journal Name, vol. #, no. #, Date, pp. ##-##.",
+                category: "Journal Articles"
+            },
+            {
+                question: "How do you handle missing publication information in MLA citations?",
+                answer: "Use these abbreviations: n.p. (no publisher), n.d. (no date), n.pag. (no pagination). Place where the missing information would normally appear.",
+                category: "Missing Information"
+            },
+            {
+                question: "What is the MLA format for citing a source within a source?",
+                answer: "Use 'qtd. in' (quoted in) in your in-text citation. Example: (Smith qtd. in Jones 45). Only list the indirect source (Jones) in your Works Cited.",
+                category: "Indirect Sources"
+            },
+            {
+                question: "How do you format titles in MLA style?",
+                answer: "Use italics for longer works (books, websites, films, TV shows). Use quotation marks for shorter works (articles, poems, short stories, individual web pages).",
+                category: "Title Formatting"
+            },
+            {
+                question: "What are the core elements of MLA citation format?",
+                answer: "1. Author, 2. Title of source, 3. Title of container, 4. Other contributors, 5. Version, 6. Number, 7. Publisher, 8. Publication date, 9. Location (page numbers or URL).",
+                category: "Core Elements"
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let cardOrder = [...Array(flashcards.length).keys()];
+
+        function updateCard() {
+            const card = flashcards[cardOrder[currentCardIndex]];
+            document.getElementById('question').textContent = card.question;
+            document.getElementById('answer').textContent = card.answer;
+            document.getElementById('currentCard').textContent = currentCardIndex + 1;
+            document.getElementById('totalCards').textContent = flashcards.length;
+            
+            // Update progress bar
+            const progress = ((currentCardIndex + 1) / flashcards.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Reset flip state
+            isFlipped = false;
+            document.getElementById('flashcard').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % flashcards.length;
+            updateCard();
+        }
+
+        function previousCard() {
+            currentCardIndex = (currentCardIndex - 1 + flashcards.length) % flashcards.length;
+            updateCard();
+        }
+
+        function shuffleCards() {
+            // Fisher-Yates shuffle
+            for (let i = cardOrder.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cardOrder[i], cardOrder[j]] = [cardOrder[j], cardOrder[i]];
+            }
+            currentCardIndex = 0;
+            updateCard();
+        }
+
+        function resetCards() {
+            cardOrder = [...Array(flashcards.length).keys()];
+            currentCardIndex = 0;
+            updateCard();
+        }
+
+        // Click to flip functionality
+        document.getElementById('flashcard').addEventListener('click', flipCard);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                case 'Enter':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+            }
+        });
+
+        // Initialize
+        updateCard();
+    </script>
+</body>
+</html>
